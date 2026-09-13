@@ -1,3 +1,68 @@
+from pathlib import Path
+
+ALLOWED_EXTENSIONS = {
+    ".py",
+    ".md",
+    ".txt",
+    ".json",
+    ".yaml",
+    ".yml",
+    ".toml",
+}
+
+BLOCKED_EXTENSIONS = {
+    ".exe",
+    ".dll",
+    ".bat",
+    ".cmd",
+    ".ps1",
+    ".sh",
+    ".vbs",
+    ".msi",
+    ".scr",
+    ".sys",
+}
+
+ALLOWED_DIRS = {
+    "core",
+    "ai",
+    "bot",
+    "fb",
+    "docs",
+    "tests",
+    "data",
+    "logs",
+}
+
+
+def validate_path(project_root, target):
+    root = Path(project_root).resolve()
+    path = Path(target).resolve()
+
+    try:
+        path.relative_to(root)
+    except ValueError:
+        raise PermissionError("OPER: 禁止寫入專案目錄之外")
+
+    if path.suffix.lower() in BLOCKED_EXTENSIONS:
+        raise PermissionError(
+            f"OPER: 禁止建立執行檔或系統元件：{path.suffix}"
+        )
+
+    if path.suffix.lower() not in ALLOWED_EXTENSIONS:
+        raise PermissionError(
+            f"OPER: 未授權副檔名：{path.suffix}"
+        )
+
+    relative = path.relative_to(root)
+
+    if relative.parts and relative.parts[0] not in ALLOWED_DIRS:
+        raise PermissionError(
+            f"OPER: 未授權目錄：{relative.parts[0]}"
+        )
+
+    return True
+    
 ALLOWED_EXTENSIONS = {
     ".py",
     ".md",
