@@ -1,3 +1,28 @@
+.env
+.env.*
+__pycache__/
+*.pyc
+*.pyo
+
+data/private/
+logs/*.log
+
+# credentials
+*token*
+*secret*
+*password*
+*cookie*
+
+# prohibited executable artifacts
+*.exe
+*.dll
+*.bat
+*.cmd
+*.ps1
+*.sh
+*.msi
+*.scr
+*.sys
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
