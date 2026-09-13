@@ -1,3 +1,37 @@
+
+
+```mermaid
+graph TD
+    A[GitHub Actions (雲端排程)] --> B{觸發條件};
+    B -- 定時排程 (Cron) --> C[AI 內容生成模組];
+    B -- 手動觸發 (Workflow Dispatch) --> C;
+    C --> D[OPER-PY3 核心];
+    D -- 呼叫 AI 模組 --> E[生成貼文內容];
+    E --> F[呼叫 FB 發布模組];
+    F -- 使用 Page Access Token --> G[Meta Graph API];
+    G --> H[發布至 Facebook 粉絲專頁];
+    H --> I[儲存發布記錄/日誌];
+    I --> J[結束];
+
+
+```
+
+OPER-PY3/
+├── .github/
+│   └── workflows/
+│       └── auto_post.yml          # GitHub Actions 工作流程
+├── fb/
+│   ├── __init__.py
+│   └── auto_publisher.py          # Facebook 發布模組
+├── ai/
+│   ├── __init__.py
+│   └── content_generator.py       # AI 內容生成模組
+├── main.py                        # OPER Core 主入口
+├── requirements.txt               # 依賴清單
+├── .env.example                   # 環境變數範本 (不上傳 .env)
+└── .gitignore                     # 確保忽略 .env
+```
+
 OPER-PY3
 OPER AI 技術與合作範圍聲明
 
