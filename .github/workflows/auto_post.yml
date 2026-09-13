@@ -1,0 +1,41 @@
+# .github/workflows/auto_post.yml
+name: OPER-PY3 自動化發布
+
+on:
+  # 排程觸發：每天 UTC 02:00 (台灣時間 10:00) 執行
+  schedule:
+    - cron: '0 2 * * *'
+  
+  # 手動觸發
+  workflow_dispatch:
+    inputs:
+      topic:
+        description: '貼文主題 (留空則使用預設主題)'
+        required: false
+        default: '技術自主與 OPER 核心'
+
+jobs:
+  auto_post:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 檢出程式碼
+        uses: actions/checkout@v4
+
+      - name: 設定 Python 環境
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 安裝依賴
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests python-dotenv openai
+
+      - name: 執行 OPER-PY3 自動發布
+        env:
+          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+          FB_PAGE_ACCESS_TOKEN: ${{ secrets.FB_PAGE_ACCESS_TOKEN }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          POST_TOPIC: ${{ github.event.inputs.topic }}
+        run: python main.py
