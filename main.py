@@ -150,3 +150,63 @@ def main():
 
 if __name__ == "__main__":
     main()
+# main.py - 支援 GitHub Actions 自動化執行
+import os
+import sys
+from fb.auto_publisher import FacebookAutoPublisher
+
+def generate_ai_content(topic):
+    """呼叫 AI 生成內容 (支援從環境變數取得 API Key)"""
+    # 這裡可整合 OpenAI、Claude 或其他 AI 服務
+    # 範例使用 OpenAI
+    try:
+        from openai import OpenAI
+        client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+        
+        response = client.chat.completions.create(
+            model="gpt-4o",
+            messages=[
+                {"role": "system", "content": "你是「元才」品牌的 AI 內容總監，擅長撰寫技術自主、拒絕依賴的社群貼文。"},
+                {"role": "user", "content": f"請根據以下主題撰寫一篇 Facebook 貼文，字數約 200-300 字：\n{topic}"}
+            ]
+        )
+        return response.choices[0].message.content
+    except Exception as e:
+        print(f"❌ AI 生成失敗：{e}")
+        return None
+
+def main():
+    print("="*60)
+    print("OPER Core | 自動化發布系統 (GitHub Actions 模式)")
+    print("="*60)
+    
+    # 從環境變數取得主題 (若為空則使用預設)
+    topic = os.getenv("POST_TOPIC", "技術自主與 OPER 核心的價值")
+    
+    try:
+        publisher = FacebookAutoPublisher()
+    except ValueError as e:
+        print(e)
+        sys.exit(1)  # 在 CI 環境中，錯誤應以非零狀態碼退出
+    
+    print(f"\n📝 主題：{topic}")
+    print("\n⏳ AI 正在生成內容...")
+    
+    ai_content = generate_ai_content(topic)
+    if not ai_content:
+        print("❌ AI 生成失敗，終止流程")
+        sys.exit(1)
+    
+    print(f"\n📄 生成的內容：\n{ai_content}\n")
+    
+    # 發布到 Facebook
+    result = publisher.publish_text(ai_content)
+    if result:
+        print("✅ 自動化流程完成！")
+    else:
+        print("❌ 發布失敗")
+        sys.exit(1)
+
+if __name__ == "__main__":
+    main()
+    
