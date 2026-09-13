@@ -120,6 +120,107 @@ OPER AI
        寫入專案
 
 ---
+根據你的要求，這裡直接提供能生成流程圖的 Mermaid 程式碼。你可以將這些程式碼區塊複製到 GitHub 的 README.md 檔案中，GitHub 會自動渲染成視覺化圖表。
+
+📊 1. 核心自動化串聯架構圖
+
+這張圖展示了從內容源到 Facebook 發布的完整資料流向。
+
+```mermaid
+flowchart TD
+    A[Lightning-Expo-2026-Taichung<br>Markdown 內容源] --> B[OPER-PY3 / fb / content_bridge.py]
+    B --> C{AI 內容生成模組}
+    C -->|有 API Key| D[OpenAI / Claude API]
+    C -->|無 API Key| E[本地 Markdown 轉換]
+    D --> F[生成貼文內容]
+    E --> F
+    F --> G[fb/publisher.py]
+    G --> H[Meta Graph API]
+    H --> I[發布至 Facebook 粉絲專頁]
+    I --> J[fb/analytics.py<br>成效數據回收]
+    J --> K[儲存發布記錄與日誌]
+```
+
+⚙️ 2. GitHub Actions 自動化流程圖
+
+這張圖說明了 GitHub Actions 工作流程的觸發與執行步驟。
+
+```mermaid
+sequenceDiagram
+    participant GH as GitHub Actions
+    participant PY as OPER-PY3 Python
+    participant AI as AI 服務
+    participant FB as Meta Graph API
+
+    Note over GH: 觸發條件: Cron 排程 或<br>Workflow Dispatch
+    GH->>PY: 啟動 main.py
+    PY->>PY: 讀取 Markdown 檔案
+    PY->>AI: 呼叫 API 生成文案
+    AI-->>PY: 返回生成內容
+    PY->>FB: POST /{page_id}/feed
+    FB-->>PY: 返回貼文 ID
+    PY->>FB: GET /{post_id}/insights
+    FB-->>PY: 返回互動數據
+    PY->>PY: 儲存發布記錄
+```
+
+📢 3. 廣告投放管理流程圖
+
+這張圖展示了如何使用 Marketing API 建立與管理廣告活動。
+
+```mermaid
+flowchart LR
+    A[fb/ad_manager.py] --> B[FacebookAdsApi.init]
+    B --> C[AdAccount<br>act_xxxxxxxx]
+    C --> D[create_campaign<br>objective: OUTCOME_TRAFFIC<br>status: PAUSED]
+    D --> E[廣告活動建立成功]
+    E --> F[人工審核確認]
+    F -->|確認啟動| G[更新狀態為 ACTIVE]
+    F -->|拒絕| H[保持 PAUSED 或刪除]
+```
+
+📁 4. 專案檔案結構圖
+
+這張圖呈現了 OPER-PY3 專案的目錄結構。
+
+```mermaid
+flowchart TD
+    ROOT[OPER-PY3 根目錄]
+    ROOT --> GH[.github/workflows]
+    ROOT --> FB[fb/]
+    ROOT --> AI[ai/]
+    ROOT --> DOCS[docs/]
+    ROOT --> MAIN[main.py]
+    ROOT --> REQ[requirements.txt]
+    ROOT --> ENV[.env.example]
+    ROOT --> GIT[.gitignore]
+
+    GH --> YML[auto_post.yml]
+    FB --> PUB[publisher.py]
+    FB --> BRIDGE[content_bridge.py]
+    FB --> AD[ad_manager.py]
+    FB --> ANA[analytics.py]
+    AI --> GEN[content_generator.py]
+```
+
+🔑 5. Page Access Token 獲取流程圖
+
+這張圖說明了如何從 Meta 開發者平台取得長期 Page Token。
+
+```mermaid
+flowchart TD
+    A[前往 Meta for Developers] --> B[建立應用程式]
+    B --> C[Graph API Explorer]
+    C --> D[勾選權限:<br>pages_manage_posts<br>pages_read_engagement<br>pages_show_list<br>business_management]
+    D --> E[Generate Access Token<br>取得短期權杖]
+    E --> F[透過 fb_exchange_token<br>換取長期 User Token]
+    F --> G[呼叫 /me/accounts<br>取得長期 Page Token]
+    G --> H[存入 GitHub Secrets 或 .env]
+```
+
+📝 6. 在 GitHub README 中使用這些圖表
+
+將上述程式碼區塊貼入你的 README.md 檔案即可。Mermaid 
 
 🔒 AI 建檔規範
 
