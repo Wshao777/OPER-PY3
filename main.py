@@ -1,3 +1,53 @@
+# main.py (OPER Core 主入口)
+from fb.publisher import FacebookPublisher
+
+def main():
+    print("="*60)
+    print("OPER Core | Facebook 發布模組")
+    print("="*60)
+    
+    # 初始化發布器
+    try:
+        publisher = FacebookPublisher()
+    except ValueError as e:
+        print(e)
+        print("\n💡 請在專案根目錄建立 .env 檔案，並填入 FB_PAGE_ID 與 FB_PAGE_ACCESS_TOKEN")
+        return
+    
+    # 選擇操作
+    while True:
+        print("\n[1] 發布純文字貼文")
+        print("[2] 發布連結貼文")
+        print("[3] 查詢貼文洞察數據")
+        print("[4] 退出")
+        choice = input("請選擇操作 (1-4): ")
+        
+        if choice == '1':
+            message = input("請輸入貼文內容：\n")
+            publisher.publish_text(message)
+            
+        elif choice == '2':
+            message = input("請輸入貼文內容：\n")
+            link = input("請輸入連結網址：\n")
+            publisher.publish_link(message, link)
+            
+        elif choice == '3':
+            post_id = input("請輸入貼文 ID：\n")
+            insights = publisher.get_post_insights(post_id)
+            if insights:
+                print("\n📊 洞察數據：")
+                for metric in insights.get("data", []):
+                    print(f"  {metric['name']}: {metric['values']}")
+                    
+        elif choice == '4':
+            print("👋 再見！")
+            break
+        else:
+            print("無效選擇，請重試。")
+
+if __name__ == "__main__":
+    main()
+    
 import os
 import sys
 from pathlib import Path
