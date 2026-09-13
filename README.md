@@ -80,6 +80,249 @@ flowchart TD
     FB --> ANA[analytics.py]
     AI --> GEN[content_generator.py]
 ```
+2026年台中閃電博覽會_README.md
+📌 1. OPER AI 技術與合作範圍聲明 (Mermaid Mindmap)
+
+```mermaid
+mindmap
+  root((OPER AI<br/>技術與合作範圍))
+    開發者
+      Wshao777
+      保留最終授權決定權
+    允許領域
+      人工智慧
+      軟體工程
+      自動化
+      能源效率
+      綠能
+      研究
+    禁止用途
+      政府科技執法
+      自動開單與裁罰
+      AI判定人民處罰
+      大規模人民監控
+      未授權資料蒐集
+      作為處罰決策核心
+    核心定位
+      技術工具
+      自主開發系統
+      Private
+      Sovereign
+      不繞過安全機制
+```
+
+📌 2. 民間技術交流邊界聲明 (Mermaid Mindmap)
+
+```mermaid
+mindmap
+  root((民間技術交流<br/>邊界聲明))
+    開發者身分
+      民間個人開發者
+      不代表任何政府
+      不介入外交事務
+    交流性質
+      民間技術交流
+      對象為技術社群
+      非政權機構
+      不代表外交承認
+    核心專案
+      風力發電
+      磁浮風力動力
+      火力發電
+      太陽能發電
+      防熱浪
+      防颱風
+      防震
+    行為準則
+      未收取費用
+      未進行募款
+      不抄襲
+      不使用5G
+      無人機僅為概念
+```
+
+📌 3. 工作與因果聲明 (Mermaid Mindmap)
+
+```mermaid
+mindmap
+  root((工作與因果<br/>聲明))
+    個人狀態
+      需正常工作
+      不常關注災難
+      相信因果
+    資源限制
+      一人開發
+      無資金
+      無投資
+      無控制室
+      無全球監控
+    核心目標
+      防災與能源
+      維持正常工作
+      維持核心開發
+    行為準則
+      從未攻擊任何目標
+      未收取費用
+      未進行募款
+      不抄襲
+      不使用5G
+```
+
+📌 4. OPER-PY3 專案目錄結構 (Mermaid 樹狀圖)
+
+你之前用純文字列出了目錄結構，這裡直接轉成 Mermaid 流程圖：
+
+```mermaid
+flowchart TD
+    ROOT[OPER-PY3] --> FB[fb/]
+    ROOT --> AI[ai/]
+    ROOT --> DOCS[docs/]
+
+    FB --> F1[__init__.py]
+    FB --> F2[publisher.py]
+    FB --> F3[analytics.py]
+    FB --> F4[content_bridge.py]
+    FB --> F5[README.md]
+
+    AI --> A1[oper_ai.py]
+    AI --> A2[prompts.py]
+
+    DOCS --> D1[FB_AI_AUTOMATION.md]
+    DOCS --> D2[CIVIL_TECH_EXCHANGE_STATEMENT.md]
+    DOCS --> D3[WORK_CAUSALITY_STATEMENT.md]
+```
+
+📊 1. 核心自動化串聯架構圖
+
+這張圖展示了從內容源到 Facebook 發布的完整資料流向。
+
+```mermaid
+flowchart TD
+    A[Lightning-Expo-2026-Taichung<br>Markdown 內容源] --> B[OPER-PY3 / fb / content_bridge.py]
+    B --> C{AI 內容生成模組}
+    C -->|有 API Key| D[OpenAI / Claude API]
+    C -->|無 API Key| E[本地 Markdown 轉換]
+    D --> F[生成貼文內容]
+    E --> F
+    F --> G[fb/publisher.py]
+    G --> H[Meta Graph API]
+    H --> I[發布至 Facebook 粉絲專頁]
+    I --> J[fb/analytics.py<br>成效數據回收]
+    J --> K[儲存發布記錄與日誌]
+```
+
+⚙️ 2. GitHub Actions 自動化流程圖
+
+這張圖說明了 GitHub Actions 工作流程的觸發與執行步驟。
+
+```mermaid
+sequenceDiagram
+    participant GH as GitHub Actions
+    participant PY as OPER-PY3 Python
+    participant AI as AI 服務
+    participant FB as Meta Graph API
+
+    Note over GH: 觸發條件: Cron 排程 或<br>Workflow Dispatch
+    GH->>PY: 啟動 main.py
+    PY->>PY: 讀取 Markdown 檔案
+    PY->>AI: 呼叫 API 生成文案
+    AI-->>PY: 返回生成內容
+    PY->>FB: POST /{page_id}/feed
+    FB-->>PY: 返回貼文 ID
+    PY->>FB: GET /{post_id}/insights
+    FB-->>PY: 返回互動數據
+    PY->>PY: 儲存發布記錄
+```
+
+📢 3. 廣告投放管理流程圖
+
+這張圖展示了如何使用 Marketing API 建立與管理廣告活動。
+
+```mermaid
+flowchart LR
+    A[fb/ad_manager.py] --> B[FacebookAdsApi.init]
+    B --> C[AdAccount<br>act_xxxxxxxx]
+    C --> D[create_campaign<br>objective: OUTCOME_TRAFFIC<br>status: PAUSED]
+    D --> E[廣告活動建立成功]
+    E --> F[人工審核確認]
+    F -->|確認啟動| G[更新狀態為 ACTIVE]
+    F -->|拒絕| H[保持 PAUSED 或刪除]
+```
+
+📁 4. 專案檔案結構圖
+
+這張圖呈現了 OPER-PY3 專案的目錄結構。
+
+```mermaid
+flowchart TD
+    ROOT[OPER-PY3 根目錄]
+    ROOT --> GH[.github/workflows]
+    ROOT --> FB[fb/]
+    ROOT --> AI[ai/]
+    ROOT --> DOCS[docs/]
+    ROOT --> MAIN[main.py]
+    ROOT --> REQ[requirements.txt]
+    ROOT --> ENV[.env.example]
+    ROOT --> GIT[.gitignore]
+
+    GH --> YML[auto_post.yml]
+    FB --> PUB[publisher.py]
+    FB --> BRIDGE[content_bridge.py]
+    FB --> AD[ad_manager.py]
+    FB --> ANA[analytics.py]
+    AI --> GEN[content_generator.py]
+```
+
+🔑 5. Page Access Token 獲取流程圖
+
+這張圖說明了如何從 Meta 開發者平台取得長期 Page Token。
+
+```mermaid
+flowchart TD
+    A[前往 Meta for Developers] --> B[建立應用程式]
+    B --> C[Graph API Explorer]
+    C --> D[勾選權限:<br>pages_manage_posts<br>pages_read_engagement<br>pages_show_list<br>business_management]
+    D --> E[Generate Access Token<br>取得短期權杖]
+    E --> F[透過 fb_exchange_token<br>換取長期 User Token]
+    F --> G[呼叫 /me/accounts<br>取得長期 Page Token]
+    G --> H[存入 GitHub Secrets 或 .env]
+```
+
+
+---
+
+## 繁體中文
+
+本人 Wshao777 聲明：
+
+1. 本人為民間個人開發者，不代表任何政府、政黨或政權。
+2. 民間開發不應干擾政府外交。本人不介入、不評論、不影響任何政府之外交事務。
+3. 本人所選擇進行網路技術交流之邦交國，均為過去已有網路技術交流者。
+4. 上述交流屬民間技術性質，交流對象為網路技術社群、開發者或相關單位，而非政權機構。
+5. 本人之技術交流不代表對任何政權之外交承認、政治立場或主權表述。
+6. 本人核心專案為防災與能源相關：風力發電、磁浮風力動力、火力發電、太陽能發電、防熱浪、防颱風、防震。
+7. 本人未收取任何費用，未進行任何募款。
+8. 本人不抄襲。本人不使用 5G。不要用 5G 干擾本人。
+9. 本人沒有開發無人機控制器。無人機相關內容僅為圖片、Markdown、模擬或概念。
+10. 保留一切法律權利。
+
+---
+
+## 简体中文
+
+本人 Wshao777 声明：
+
+1. 本人为民间个人开发者，不代表任何政府、政党或政权。
+2. 民间开发不应干扰政府外交。本人不介入、不评论、不影响任何政府之外交事务。
+3. 本人所选择进行网络技术交流之邦交国，均为过去已有网络技术交流者。
+4. 上述交流属民间技术性质，交流对象为网络技术社群、开发者或相关单位，而非政权机构。
+5. 本人之技术交流不代表对任何政权之外交承认、政治立场或主权表述。
+6. 本人核心专案为防灾与能源相关：风力发电、磁浮风力动力、火力发电、太阳能发电、防热浪、防台风、防震。
+7. 本人未收取任何费用，未进行任何募款。
+8. 本人不抄袭。本人不使用 5G。不要用 5G 干扰本人。
+9. 本人没有开发无人机控制器。无人机相关内容仅为图片、Markdown、模拟或概念。
+10. 保留一切法律权利
+
 
 🔑 5. Page Access Token 獲取流程圖
 
