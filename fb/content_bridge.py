@@ -35,3 +35,54 @@ class ContentBridge:
         )
 
         return str(path)
+# fb/content_bridge.py
+import re
+
+def markdown_to_fb_post(md_content: str) -> str:
+    """將 Markdown 內容轉換為 Facebook 貼文格式"""
+    
+    # 移除 YAML front matter
+    md_content = re.sub(r'^---[\s\S]*?---\n', '', md_content)
+    
+    # 移除圖片語法，保留 alt 文字
+    md_content = re.sub(r'!\[([^\]]*)\]\([^\)]+\)', r'\1', md_content)
+    
+    # 轉換連結為 "文字 (網址)" 格式
+    md_content = re.sub(r'\[([^\]]+)\]\(([^\)]+)\)', r'\1 (\2)', md_content)
+    
+    # 移除標題符號，轉為大寫
+    md_content = re.sub(r'^#{1,6}\s+(.+)$', lambda m: m.group(1).upper(), md_content, flags=re.MULTILINE)
+    
+    # 轉換粗體
+    md_content = re.sub(r'\*\*(.+?)\*\*', r'\1', md_content)
+    md_content = re.sub(r'\*(.+?)\*', r'\1', md_content)
+    
+    # 移除程式碼區塊標記
+    md_content = re.sub(r'```[\s\S]*?```', '', md_content)
+    md_content = re.sub(r'`(.+?)`', r'\1', md_content)
+    
+    # 壓縮多餘空行
+    md_content = re.sub(r'\n{3,}', '\n\n', md_content)
+    
+    return md_content.strip()
+
+def extract_title(md_content: str) -> str:
+    """從 Markdown 中提取第一個標題作為貼文標題"""
+    match = re.search(r'^#\s+(.+)$', md_content, re.MULTILINE)
+    return match.group(1) if match else "無標題"
+
+def extract_hashtags(md_content: str) -> list:
+    """提取或生成適合的 Hashtag"""
+    tags = ["#OPER", "#AI", "#技術自主"]
+    if "台中" in md_content or "Taichung" in md_content:
+        tags.extend(["#台中", "#LightningExpo2026"])
+    if "防災" in md_content or "能源" in md_content:
+        tags.append("#防災科技")
+    return tags
+
+def build_fb_post(md_content: str) -> str:
+    """組合完整的 Facebook 貼文"""
+    title = extract_title(md_content)
+    body = markdown_to_fb_post(md_content)
+    hashtags = " ".join(extract_hashtags(md_content))
+    return f"【{title}】\n\n{body}\n\n{hashtags}"
