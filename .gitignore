@@ -1,3 +1,45 @@
+# Private source
+*.py
+*.json
+*.pyc
+__pycache__/
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Executables / native binaries
+*.exe
+*.dll
+*.bat
+*.cmd
+*.sh
+*.so
+*.dylib
+
+# Logs / local data
+logs/
+data/*
+!data/.gitkeep
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Build / cache
+build/
+dist/
+*.egg-info/
+
+# Private AI configuration
+ai_private/
+core_private/
+bot_private/
+fb_private/
+
 ============================================================
 
 OPER-PY3
