@@ -1,18 +1,48 @@
+OPER-PY3/
+├── .github/workflows/auto_post.yml    # GitHub Actions 排程
+├── fb/
+│   ├── __init__.py
+│   ├── publisher.py                  # 發布 FB 貼文
+│   ├── ad_manager.py                 # 廣告投放 (Marketing API)
+│   └── content_bridge.py             # Markdown 轉貼文格式
+├── ai/
+│   ├── __init__.py
+│   └── content_generator.py          # AI 生成內容
+├── main.py                           # OPER Core 主入口
+├── requirements.txt
+├── .env.example
+└── .gitignore                        # 確保排除 .env
 
 
-```mermaid
+公開 GitHub
+│
+├── README.md
+├── docs/*.md
+├── LICENSE
+└── .gitignore
+        │
+        │ 不公開
+        ▼
+本機 / 私有部署
+├── core/*.py
+├── ai/*.py
+├── bot/*.py
+├── fb/*.py
+├── *.json
+└── Secrets
+
 graph TD
-    A[GitHub Actions (雲端排程)] --> B{觸發條件};
-    B -- 定時排程 (Cron) --> C[AI 內容生成模組];
-    B -- 手動觸發 (Workflow Dispatch) --> C;
-    C --> D[OPER-PY3 核心];
-    D -- 呼叫 AI 模組 --> E[生成貼文內容];
-    E --> F[呼叫 FB 發布模組];
-    F -- 使用 Page Access Token --> G[Meta Graph API];
-    G --> H[發布至 Facebook 粉絲專頁];
-    H --> I[儲存發布記錄/日誌];
-    I --> J[結束];
-
+    A[GitHub Actions 雲端排程] --> B{觸發條件}
+    B -->|定時排程 Cron| C[AI 內容生成模組]
+    B -->|手動觸發 Workflow Dispatch| C
+    C --> D[OPER-PY3 核心]
+    D --> E[生成貼文內容]
+    E --> F[呼叫 FB 發布模組]
+    F --> G[Meta Graph API]
+    G --> H[發布至 Facebook 粉絲專頁]
+    H --> I[儲存發布記錄與日誌]
+    I --> J[結束]
+    
 
 ```
 
