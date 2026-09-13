@@ -1,3 +1,8 @@
+private/
+*.private.md
+architecture.md
+ai_dialogue.md
+
 # Private source
 *.py
 *.json
