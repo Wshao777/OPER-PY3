@@ -1,3 +1,34 @@
+ALLOWED_EXTENSIONS = {
+    ".py",
+    ".md",
+    ".txt",
+    ".json",
+    ".yaml",
+    ".yml",
+    ".toml",
+    ".gitignore",
+}
+
+BLOCKED_EXTENSIONS = {
+    ".exe",
+    ".dll",
+    ".bat",
+    ".cmd",
+    ".ps1",
+    ".sh",
+    ".vbs",
+    ".msi",
+    ".scr",
+    ".sys",
+}
+ALLOWED_DIRS = {
+    "core",
+    "ai",
+    "bot",
+    "fb",
+    "docs",
+    "tests",
+}
 AI
  │
  ├── CREATE ──────→ ai/
